@@ -14,18 +14,21 @@
       // component: center blue rect background
       {
         rect: new Rect(97, 50, 90, 40),
-        drawType: $DRAW_TYPE.DRAW_FILL
+        drawType: $DRAW_TYPE.DRAW_FILL,
+        presentOffset: new PresentOffset(-250, 150)
       }
     ],
     arc: [
       // component: two aside blue circle background
       {
         centerPoint: new Point(100, 70),
-        drawType: $DRAW_TYPE.DRAW_FILL
+        drawType: $DRAW_TYPE.DRAW_FILL,
+        presentOffset: new PresentOffset(-230, 270)
       },
       {
         centerPoint: new Point(190, 70),
-        drawType: $DRAW_TYPE.DRAW_FILL
+        drawType: $DRAW_TYPE.DRAW_FILL,
+        presentOffset: new PresentOffset(-200, 270)
       },
       // two line around the background
       // component: circle of left arc
@@ -35,7 +38,8 @@
         b: 21,
         drawType: $DRAW_TYPE.DRAW_LINE,
         fromAngle: Math.PI,
-        toAngle: Math.PI * 1.5
+        toAngle: Math.PI * 1.5,
+        presentOffset: new PresentOffset(30, 275)
       },
       // component: circle of right arc
       {
@@ -44,7 +48,8 @@
         b: 21,
         drawType: $DRAW_TYPE.DRAW_LINE,
         fromAngle: 0,
-        toAngle: Math.PI * 0.5
+        toAngle: Math.PI * 0.5,
+        presentOffset: new PresentOffset(50, 260)
       },
       // component: white circle background
       {
@@ -52,7 +57,8 @@
         a: 14,
         b: 14,
         fillStyle: 'white',
-        drawType: $DRAW_TYPE.DRAW_FILL
+        drawType: $DRAW_TYPE.DRAW_FILL,
+        presentOffset: new PresentOffset(280, 265)
       },
       // component: blue circle of logo 'e'
       {
@@ -62,7 +68,8 @@
         lineWidth: 3,
         fromAngle: Math.PI * 0.3,
         toAngle:  Math.PI * 1.9,
-        drawType: $DRAW_TYPE.DRAW_LINE
+        drawType: $DRAW_TYPE.DRAW_LINE,
+        presentOffset: new PresentOffset(-230, 380)
       },
       // component: blue point of logo 'e'
       {
@@ -71,71 +78,93 @@
         b: 4,
         fromAngle: 0,
         toAngle: Math.PI / 4,
-        drawType: $DRAW_TYPE.DRAW_FILL
+        drawType: $DRAW_TYPE.DRAW_FILL,
+        presentOffset: new PresentOffset(-120, 375)
       }
     ],
     vertical: [
       // block-1
-      new Radical(new Point(120, 55), 8),
-      new Radical(new Point(126, 56), 6),
+      { o: new Radical(new Point(120, 55), 8), presentOffset: new PresentOffset(-250, 500)},
+      { o: new Radical(new Point(126, 56), 6), presentOffset: new PresentOffset(-220, 500)},
       // block-2
-      new Radical(new Point(120, 65), 19),
+      { o: new Radical(new Point(120, 65), 19), presentOffset: new PresentOffset(-170, 480)},
       // block-3
-      new Radical(new Point(134, 57), 27),
-      new Radical(new Point(142, 55), 29),
-      new Radical(new Point(148, 67), 10, null, 3),
+      { o: new Radical(new Point(134, 57), 27), presentOffset: new PresentOffset(-130, 480)},
+      { o: new Radical(new Point(142, 55), 29), presentOffset: new PresentOffset(-90, 480)},
+      { o: new Radical(new Point(148, 67), 10, null, 3), presentOffset: new PresentOffset(-30, 485)},
       // block-4
-      new Radical(new Point(163, 64), 20),
+      { o: new Radical(new Point(163, 64), 20), presentOffset: new PresentOffset(0, 480)},
       // block-5
-      new Radical(new Point(193, 76), 6)
+      { o: new Radical(new Point(193, 76), 6), presentOffset: new PresentOffset(20, 480)}
     ],
     horizontal: [
       // block-1
-      new Radical(new Point(120, 58), 6),
+      { o: new Radical(new Point(120, 58), 6), presentOffset: new PresentOffset(-255, 550)},
       // block-2
-      new Radical(new Point(120, 82), 5),
+      { o: new Radical(new Point(120, 82), 5), presentOffset: new PresentOffset(-220, 526)},
       // block-3
-      new Radical(new Point(130, 57), 8),
-      new Radical(new Point(130, 63), 20),
-      new Radical(new Point(130, 82), 4),
-      new Radical(new Point(128, 72), 10, -Math.PI/30, 3),
-      new Radical(new Point(140, 82.5), 10, null, 3),
-      new Radical(new Point(138, 76), 10, null, 3),
+      { o: new Radical(new Point(130, 57), 8), presentOffset: new PresentOffset(-190, 550)},
+      { o: new Radical(new Point(130, 63), 20), presentOffset: new PresentOffset(-150, 543)},
+      { o: new Radical(new Point(130, 82), 4), presentOffset: new PresentOffset(-80, 523)},
+      { o: new Radical(new Point(128, 72), 10, -Math.PI/30, 3), presentOffset: new PresentOffset(-20, 533)},
+      { o: new Radical(new Point(140, 82.5), 10, null, 3) , presentOffset: new PresentOffset(20, 523)},
+      { o: new Radical(new Point(138, 76), 10, null, 3) , presentOffset: new PresentOffset(75, 529)},
       // block-4
-      new Radical(new Point(146, 57), 25),
-      new Radical(new Point(152, 82.5), 10, null, 3),
+      { o: new Radical(new Point(146, 57), 25), presentOffset: new PresentOffset(110, 548)},
+      { o: new Radical(new Point(152, 82.5), 10, null, 3) , presentOffset: new PresentOffset(170, 523)},
       // block-5
-      new Radical(new Point(171, 82), 24)
+      { o: new Radical(new Point(171, 82), 24), presentOffset: new PresentOffset(190, 523)}
     ],
     virgule: [
       // block-4
-      new Radical(new Point(161, 67), 12),
+      { o: new Radical(new Point(161, 67), 12), presentOffset: new PresentOffset(-300, 650)},
       // block-5
-      new Radical(new Point(170, 66), 12),
-      new Radical(new Point(172, 84), 32)
+      { o: new Radical(new Point(170, 66), 12), presentOffset: new PresentOffset(-260, 650)},
+      { o: new Radical(new Point(172, 84), 32), presentOffset: new PresentOffset(-220, 640)}
     ],
     line: [
       // component: line of left arc
       {
         fromPoint: new Point(98, 47),
-        toPoint: new Point(190, 47)
+        toPoint: new Point(190, 47),
+        presentOffset: new PresentOffset(150, 510)
       },
       // component: line of right arc
       {
         fromPoint: new Point(100, 93),
-        toPoint: new Point(192, 93)
+        toPoint: new Point(192, 93),
+        presentOffset: new PresentOffset(260, 465)
       },
       // component: blue line of logo 'e'
       {
         fromPoint: new Point(97, 72),
         toPoint: new Point(109, 65),
-        lineWidth: 3
+        lineWidth: 3,
+        presentOffset: new PresentOffset(330, 533)
+      },
+      // draw seperate line
+      {
+        fromPoint: new Point(0 - offsetX, 200 - offsetY),
+        toPoint: new Point(600 - offsetX, 200 - offsetY),
+        static: true
+      },
+      {
+        fromPoint: new Point(0 - offsetX, 300 - offsetY),
+        toPoint: new Point(600 - offsetX, 300 - offsetY),
+        static: true
+      },
+      {
+        fromPoint: new Point(0 - offsetX, 530 - offsetY),
+        toPoint: new Point(600 - offsetX, 530 - offsetY),
+        static: true
+      },
+      {
+        fromPoint: new Point(0 - offsetX, 690 - offsetY),
+        toPoint: new Point(600 - offsetX, 690 - offsetY),
+        static: true
       }
     ],
   };
-
-
-
 
   /**
    * position object
@@ -190,6 +219,15 @@
     }
   }
 
+  function PresentOffset(ofX, ofY) {
+    if (arguments.length == 2) {
+      this.offsetX = ofX = 0;
+      this.offsetY = ofY = 0;
+    } else {
+      new Error('params is error');
+    }
+  }
+
   /**
    * ElemeLogoDrawer object
    * @param {[type]} canvas [description]
@@ -216,12 +254,13 @@
       // if origin exist
       if (radical) {
         var opts = {
-          fromPoint: radical.point,
-          toPoint: radical.angle ?
-                   new Point(radical.point.x + Math.cos(radical.angle) * radical.length, radical.point.y + Math.sin(radical.angle) * radical.length)
-                   : new Point(radical.point.x, radical.point.y + radical.length),
+          fromPoint: radical.o.point,
+          toPoint: radical.o.angle ?
+                   new Point(radical.o.point.x + Math.cos(radical.o.angle) * radical.o.length, radical.o.point.y + Math.sin(radical.o.angle) * radical.o.length)
+                   : new Point(radical.o.point.x, radical.o.point.y + radical.o.length),
           strokeStyle: 'white',
-          lineWidth: radical.lineWidth || 4
+          lineWidth: radical.o.lineWidth || 4,
+          presentOffset: radical.presentOffset || new PresentOffset(0, 0)
         };
         ElemeLogoDrawer.prototype._coreLineDraw.call(self, opts);
       }
@@ -230,14 +269,15 @@
     // horizontal processor
     function horizontalProcessor(radical) {
       // if origin exist
-      if (radical) {
+      if (radical.o) {
         var opts = {
-          fromPoint: radical.point,
-          toPoint: radical.angle ?
-                   new Point(radical.point.x + Math.cos(radical.angle) * radical.length, radical.point.y + Math.sin(radical.angle) * radical.length)
-                   : new Point(radical.point.x + radical.length, radical.point.y),
+          fromPoint: radical.o.point,
+          toPoint: radical.o.angle ?
+                   new Point(radical.o.point.x + Math.cos(radical.o.angle) * radical.o.length, radical.o.point.y + Math.sin(radical.o.angle) * radical.o.length)
+                   : new Point(radical.o.point.x + radical.o.length, radical.o.point.y),
           strokeStyle: 'white',
-          lineWidth: radical.lineWidth || 4
+          lineWidth: radical.o.lineWidth || 4,
+          presentOffset: radical.presentOffset || new PresentOffset(0, 0)
         };
         ElemeLogoDrawer.prototype._coreLineDraw.call(self, opts);
       }
@@ -245,7 +285,7 @@
 
     // virgule processor
     function virguleProcessor(radical) {
-      if (radical) {
+      if (radical.o) {
         ElemeLogoDrawer.prototype._coreParallelogramDraw.call(self, radical)
       }
     }
@@ -276,9 +316,10 @@
         toAngle = obj.toAngle || 2 * Math.PI,
         drawType = obj.drawType || this.$DRAW_TYPE.DRAW_LINE,
         fillStyle = obj.fillStyle || this.$COLOR.MAIN_COLOR,
-        strokeStyle = obj.strokeStyle || this.$COLOR.MAIN_COLOR;
+        strokeStyle = obj.strokeStyle || this.$COLOR.MAIN_COLOR,
+        presentOffset = obj.presentOffset || new PresentOffset(0, 0);
 
-    centerPoint = new Point(centerPoint.x + offsetX, centerPoint.y + offsetY)
+    centerPoint = new Point(centerPoint.x + offsetX + presentOffset.offsetX, centerPoint.y + offsetY + presentOffset.offsetY)
 
     var r = a > b ? a : b;
     var ratioX = a / r;
@@ -308,11 +349,12 @@
 
   ElemeLogoDrawer.prototype._coreRectDraw = function(obj) {
     var rect = obj.rect || new Rect(0, 0, 20, 20),
+        presentOffset = obj.presentOffset || new PresentOffset(0, 0),
         drawType = obj.drawType || this.$DRAW_TYPE.DRAW_LINE,
         strokeStyle = obj.strokeStyle || this.$COLOR.MAIN_COLOR,
         fillStyle = obj.fillStyle || this.$COLOR.MAIN_COLOR;
 
-    rect = new Rect(rect.x + offsetX, rect.y + offsetY, rect.width, rect.height);
+    rect = new Rect(rect.x + offsetX + presentOffset.offsetX, rect.y + offsetY + presentOffset.offsetY, rect.width, rect.height);
 
     this.$ctx.beginPath();
 
@@ -333,10 +375,11 @@
     var fromPoint = obj.fromPoint || new Point(0, 0),
         toPoint = obj.toPoint || new Point(10, 10),
         lineWidth = obj.lineWidth || 1,
-        strokeStyle = obj.strokeStyle || this.$COLOR.MAIN_COLOR;
+        strokeStyle = obj.strokeStyle || this.$COLOR.MAIN_COLOR,
+        presentOffset = obj.presentOffset || new PresentOffset(0, 0);
 
-    fromPoint = new Point(fromPoint.x + offsetX, fromPoint.y + offsetY);
-    toPoint = new Point(toPoint.x + offsetX, toPoint.y + offsetY);
+    fromPoint = new Point(fromPoint.x + offsetX + presentOffset.offsetX, fromPoint.y + offsetY + presentOffset.offsetY);
+    toPoint = new Point(toPoint.x + offsetX + presentOffset.offsetX, toPoint.y + offsetY + presentOffset.offsetY);
 
     this.$ctx.beginPath();
 
@@ -353,26 +396,27 @@
   };
 
   ElemeLogoDrawer.prototype._coreParallelogramDraw = function(obj) {
-    var point = obj.point || new Point(0, 0),
-        length = obj.length || 10,
-        fillStyle = obj.fillStyle || 'white',
-        width = 5;
+    var point = obj.o.point || new Point(0, 0),
+        length = obj.o.length || 10,
+        fillStyle = obj.o.fillStyle || 'white',
+        width = 5,
+        presentOffset = obj.presentOffset || new PresentOffset(0, 0);
 
     var angle = Math.PI / 3;
 
     // 0,1,2,3: 从左上角开始计算
     var squareX = [
-      point.x + Math.cos(angle) * length + offsetX,
-      point.x + width + Math.cos(angle) * length + offsetX,
-      point.x + width + offsetX,
-      point.x + offsetX
+      point.x + Math.cos(angle) * length + offsetX + presentOffset.offsetX,
+      point.x + width + Math.cos(angle) * length + offsetX + presentOffset.offsetX,
+      point.x + width + offsetX + presentOffset.offsetX,
+      point.x + offsetX + presentOffset.offsetX
     ];
 
     var squareY = [
-      point.y - Math.sin(angle) * length + offsetY,
-      point.y - Math.sin(angle) * length + offsetY,
-      point.y + offsetY,
-      point.y + offsetY
+      point.y - Math.sin(angle) * length + offsetY + presentOffset.offsetY,
+      point.y - Math.sin(angle) * length + offsetY + presentOffset.offsetY,
+      point.y + offsetY + presentOffset.offsetY,
+      point.y + offsetY + presentOffset.offsetY
     ];
 
     var squarePoints = [
@@ -393,7 +437,28 @@
     this.$ctx.closePath();
 
   };
+
+  ElemeLogoDrawer.prototype.clear = function() {
+    this.$ctx.clearRect(0, 0, 600, 800);
+  };
+
   var drawer = new ElemeLogoDrawer('eleme');
-  drawer.draw();
+
+  var fps = 5;
+  function animate() {
+    reqAnimFrame =  window.mozRequestAnimationFrame    ||
+                    window.webkitRequestAnimationFrame ||
+                    window.msRequestAnimationFrame     ||
+                    window.oRequestAnimationFrame;
+
+    reqAnimFrame(animate);
+
+    drawer.clear();
+    drawer.draw();
+}
+
+// animate();
+
+drawer.draw();
 
 })(window)
