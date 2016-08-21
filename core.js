@@ -1,12 +1,28 @@
 (function(){
+  var action = window.location.href.substr(window.location.href.indexOf('action=') + 7);
+
   var $DRAW_TYPE = {
     DRAW_LINE: 'DRAW_LINE',
     DRAW_FILL: 'DRAW_FILL'
   };
 
+  var leftFromAngle = '',
+      rightFromAngle = '';
+
+  // for animation 
+  if (action === 'animation') {
+    leftFromAngle = Math.PI * 0.5;
+    rightFromAngle = -Math.PI * 0.5;
+  } else {
+    leftFromAngle = Math.PI;
+    rightFromAngle = 0;
+  }
+
   // offset
   var offsetX = 155,
       offsetY = 30;
+
+  var elemeQuene = [];
 
   // canvas地图
   var elemeMap = {
@@ -33,21 +49,21 @@
       // two line around the background
       // component: circle of left arc
       {
-        centerPoint: new Point(98, 68),
-        a: 21,
-        b: 21,
+        centerPoint: new Point(100, 70),
+        a: 24,
+        b: 24,
         drawType: $DRAW_TYPE.DRAW_LINE,
-        fromAngle: Math.PI,
+        fromAngle: leftFromAngle,
         toAngle: Math.PI * 1.5,
         presentOffset: new PresentOffset(30, 275)
       },
       // component: circle of right arc
       {
-        centerPoint: new Point(192, 72),
-        a: 21,
-        b: 21,
+        centerPoint: new Point(190, 70),
+        a: 24,
+        b: 24,
         drawType: $DRAW_TYPE.DRAW_LINE,
-        fromAngle: 0,
+        fromAngle: rightFromAngle,
         toAngle: Math.PI * 0.5,
         presentOffset: new PresentOffset(50, 260)
       },
@@ -93,7 +109,7 @@
       { o: new Radical(new Point(142, 55), 29), presentOffset: new PresentOffset(-90, 480)},
       { o: new Radical(new Point(148, 67), 10, null, 3), presentOffset: new PresentOffset(-30, 485)},
       // block-4
-      { o: new Radical(new Point(163, 64), 20), presentOffset: new PresentOffset(0, 480)},
+      { o: new Radical(new Point(163, 64), 20), presentOffset: new PresentOffset(10, 480)},
       // block-5
       { o: new Radical(new Point(193, 76), 6), presentOffset: new PresentOffset(20, 480)}
     ],
@@ -125,24 +141,29 @@
     line: [
       // component: line of left arc
       {
-        fromPoint: new Point(98, 47),
-        toPoint: new Point(190, 47),
+        fromPoint: new Point(100, 46),
+        toPoint: new Point(190, 46),
         presentOffset: new PresentOffset(150, 510)
       },
       // component: line of right arc
       {
-        fromPoint: new Point(100, 93),
-        toPoint: new Point(192, 93),
+        fromPoint: new Point(100, 94),
+        toPoint: new Point(190, 94),
         presentOffset: new PresentOffset(260, 465)
       },
       // component: blue line of logo 'e'
       {
-        fromPoint: new Point(97, 72),
+        fromPoint: new Point(90, 72),
         toPoint: new Point(109, 65),
         lineWidth: 3,
         presentOffset: new PresentOffset(330, 533)
-      },
-      // draw seperate line
+      }
+    ],
+  };
+
+  // draw seperate line
+  if (action === 'seperate') {
+    var lines = [
       {
         fromPoint: new Point(0 - offsetX, 200 - offsetY),
         toPoint: new Point(600 - offsetX, 200 - offsetY),
@@ -163,8 +184,24 @@
         toPoint: new Point(600 - offsetX, 690 - offsetY),
         static: true
       }
-    ],
-  };
+    ];
+
+    for (var i = 0; i < lines.length ; i ++) {
+      elemeMap.line.push(lines[i]);
+    }
+  }
+
+  var LIMIT_SECOND = 80;
+  for (var k in elemeMap) {
+    for (var i = 0 ; i < elemeMap[k].length; i++) {
+      if (!elemeMap[k][i].static) {
+        elemeMap[k][i].xSpeed = elemeMap[k][i].presentOffset.offsetX / LIMIT_SECOND;
+        elemeMap[k][i].ySpeed = elemeMap[k][i].presentOffset.offsetY / LIMIT_SECOND;
+        elemeMap[k][i].originPresentOffset = new PresentOffset(elemeMap[k][i].presentOffset.offsetX, elemeMap[k][i].presentOffset.offsetY);
+        elemeQuene.push(elemeMap[k][i]);
+      }
+    }
+  }
 
   /**
    * position object
@@ -175,6 +212,8 @@
     if (arguments.length == 2) {
       this.x = x;
       this.y = y;
+      this.$originX = x;
+      this.$originY = y;
     } else {
       new Error('params is error');
     }
@@ -221,8 +260,8 @@
 
   function PresentOffset(ofX, ofY) {
     if (arguments.length == 2) {
-      this.offsetX = ofX = 0;
-      this.offsetY = ofY = 0;
+      this.offsetX = ofX;
+      this.offsetY = ofY;
     } else {
       new Error('params is error');
     }
@@ -302,7 +341,7 @@
 
     for (var k in elemeMap) {
       for (var i = 0 ; i < elemeMap[k].length; i++) {
-        processor[k](elemeMap[k][i])
+        processor[k](elemeMap[k][i]);
       }
     }
   };
@@ -317,7 +356,10 @@
         drawType = obj.drawType || this.$DRAW_TYPE.DRAW_LINE,
         fillStyle = obj.fillStyle || this.$COLOR.MAIN_COLOR,
         strokeStyle = obj.strokeStyle || this.$COLOR.MAIN_COLOR,
-        presentOffset = obj.presentOffset || new PresentOffset(0, 0);
+        presentOffset = obj.presentOffset || new PresentOffset(0, 0),
+        active = obj.active || false;
+
+    presentOffset = active ? presentOffset : new PresentOffset(0, 0);
 
     centerPoint = new Point(centerPoint.x + offsetX + presentOffset.offsetX, centerPoint.y + offsetY + presentOffset.offsetY)
 
@@ -352,7 +394,10 @@
         presentOffset = obj.presentOffset || new PresentOffset(0, 0),
         drawType = obj.drawType || this.$DRAW_TYPE.DRAW_LINE,
         strokeStyle = obj.strokeStyle || this.$COLOR.MAIN_COLOR,
-        fillStyle = obj.fillStyle || this.$COLOR.MAIN_COLOR;
+        fillStyle = obj.fillStyle || this.$COLOR.MAIN_COLOR,
+        active = obj.active || false;
+
+    presentOffset = active ? presentOffset : new PresentOffset(0, 0);
 
     rect = new Rect(rect.x + offsetX + presentOffset.offsetX, rect.y + offsetY + presentOffset.offsetY, rect.width, rect.height);
 
@@ -376,7 +421,10 @@
         toPoint = obj.toPoint || new Point(10, 10),
         lineWidth = obj.lineWidth || 1,
         strokeStyle = obj.strokeStyle || this.$COLOR.MAIN_COLOR,
-        presentOffset = obj.presentOffset || new PresentOffset(0, 0);
+        presentOffset = obj.presentOffset || new PresentOffset(0, 0),
+        active = obj.active || false;
+
+    presentOffset = active ? presentOffset : new PresentOffset(0, 0);
 
     fromPoint = new Point(fromPoint.x + offsetX + presentOffset.offsetX, fromPoint.y + offsetY + presentOffset.offsetY);
     toPoint = new Point(toPoint.x + offsetX + presentOffset.offsetX, toPoint.y + offsetY + presentOffset.offsetY);
@@ -400,7 +448,10 @@
         length = obj.o.length || 10,
         fillStyle = obj.o.fillStyle || 'white',
         width = 5,
-        presentOffset = obj.presentOffset || new PresentOffset(0, 0);
+        presentOffset = obj.presentOffset || new PresentOffset(0, 0),
+        active = obj.active || false;
+
+    presentOffset = active ? presentOffset : new PresentOffset(0, 0);
 
     var angle = Math.PI / 3;
 
@@ -444,21 +495,217 @@
 
   var drawer = new ElemeLogoDrawer('eleme');
 
-  var fps = 5;
-  function animate() {
-    reqAnimFrame =  window.mozRequestAnimationFrame    ||
-                    window.webkitRequestAnimationFrame ||
-                    window.msRequestAnimationFrame     ||
-                    window.oRequestAnimationFrame;
+  var R = 24;
+  var angle = 2 / Math.PI / R;
+  var rightAngle1 = rightAngle2 = defaultRightAngle = -Math.PI / 2,
+      leftAngle1 = leftAngle2 = defaultLeftAngle = Math.PI / 2;
 
+  var LINE_LENGTH = 37.7;
+  var BLANK_COLOR = 'white';
+  var LINE_WIDTH = 4;
+  var LINE_SPEED = 0.6;
+  function flashEngine(blankPoint, index) {
+    if (index == 1) {
+      rightAngle = rightAngle1;
+      leftAngle = leftAngle1;
+    } else {
+      rightAngle = rightAngle2;
+      leftAngle = leftAngle2;
+    }
+
+    // top line
+    if (blankPoint.rect.x >= 100 && blankPoint.rect.x <= 190 && blankPoint.rect.y < 70) {
+      var extraLength = 190 - blankPoint.rect.x - LINE_LENGTH;
+
+      drawer._coreLineDraw({
+        fromPoint: new Point(blankPoint.rect.x, blankPoint.rect.y),
+        toPoint: new Point(extraLength > 0 ? blankPoint.rect.x + LINE_LENGTH : 190 , 70 - R),
+        strokeStyle: BLANK_COLOR,
+        lineWidth: LINE_WIDTH
+      });
+
+      if (extraLength < 0) {
+        drawer._coreArcDraw({
+          centerPoint: new Point(190, 70),
+          a: R,
+          b: R,
+          fromAngle: Math.PI * 1.5,
+          toAngle: Math.PI * 1.5 + (-extraLength) / R,
+          strokeStyle: BLANK_COLOR,
+          lineWidth: LINE_WIDTH
+        });
+      }
+
+      blankPoint.rect.x += LINE_SPEED;
+      blankPoint.rect.y = 70 - R;
+    }
+    // right circle
+    else if (blankPoint.rect.x >= 190) {
+
+      drawer._coreArcDraw({
+        centerPoint: new Point(190, 70),
+        a: R,
+        b: R,
+        fromAngle: rightAngle,
+        toAngle: rightAngle > 0 ? Math.PI * 0.5 : rightAngle + LINE_LENGTH / R,
+        strokeStyle: BLANK_COLOR,
+        lineWidth: LINE_WIDTH
+      });
+
+      if (rightAngle > 0) {
+        var extraLength = rightAngle * R;
+        drawer._coreLineDraw({
+          fromPoint: new Point(190, 70 + R),
+          toPoint: new Point(190 - extraLength, 70 + R),
+          strokeStyle: BLANK_COLOR,
+          lineWidth: LINE_WIDTH
+        });
+      }
+
+      leftAngle = defaultLeftAngle;
+      rightAngle = rightAngle + angle;
+      blankPoint.rect.x = 190 + Math.cos(rightAngle) * R;
+      blankPoint.rect.y = 70 + Math.sin(rightAngle) * R;
+    }
+    // bottom line
+    else if (blankPoint.rect.x >= 100 && blankPoint.rect.x < 190 && blankPoint.rect.y > 70) {
+      var extraLength = blankPoint.rect.x - 100 - LINE_LENGTH;
+
+      drawer._coreLineDraw({
+        fromPoint: new Point(blankPoint.rect.x, blankPoint.rect.y),
+        toPoint: new Point(extraLength > 0 ? blankPoint.rect.x - LINE_LENGTH : 100 , 70 + R),
+        strokeStyle: BLANK_COLOR,
+        lineWidth: LINE_WIDTH
+      });
+
+      if (extraLength < 0) {
+        drawer._coreArcDraw({
+          centerPoint: new Point(100, 70),
+          a: R,
+          b: R,
+          fromAngle: Math.PI * 0.5,
+          toAngle: Math.PI * 0.5 + (-extraLength) / R,
+          strokeStyle: BLANK_COLOR,
+          lineWidth: LINE_WIDTH
+        });
+      }
+
+      blankPoint.rect.x -= LINE_SPEED;
+      blankPoint.rect.y = 70 + R;
+    }
+    // left circle
+    else if (blankPoint.rect.x <= 100) {
+      drawer._coreArcDraw({
+        centerPoint: new Point(100, 70),
+        a: R,
+        b: R,
+        fromAngle: leftAngle,
+        toAngle: leftAngle > Math.PI ? Math.PI * 1.5 : leftAngle + LINE_LENGTH / R,
+        strokeStyle: BLANK_COLOR,
+        lineWidth: LINE_WIDTH
+      });
+
+      if (leftAngle > Math.PI) {
+        var extraLength = (Math.PI - leftAngle) * R;
+        drawer._coreLineDraw({
+          fromPoint: new Point(100, 70 - R),
+          toPoint: new Point(100 - extraLength, 70 - R),
+          strokeStyle: BLANK_COLOR,
+          lineWidth: LINE_WIDTH
+        });
+      }
+
+      rightAngle = defaultRightAngle;
+      leftAngle = leftAngle + angle
+      blankPoint.rect.x = 100 + Math.cos(leftAngle) * R;
+      blankPoint.rect.y = 70 + Math.sin(leftAngle) * R;
+    }
+
+    if (index == 1) {
+      rightAngle1 = rightAngle;
+      leftAngle1 = leftAngle;
+    } else {
+      rightAngle2 = rightAngle;
+      leftAngle2 = leftAngle;
+    }
+  }
+
+  var blankPointLeft = {
+    rect: new Rect(100, 94, 1, 1),
+    fillStyle: 'red',
+    drawType: $DRAW_TYPE.DRAW_FILL
+  };
+
+  var blankPointRight = {
+    rect: new Rect(190, 46, 1, 1),
+    fillStyle: 'red',
+    drawType: $DRAW_TYPE.DRAW_FILL
+  };
+
+  var reqAnimFrame =  window.mozRequestAnimationFrame    ||
+                  window.webkitRequestAnimationFrame ||
+                  window.msRequestAnimationFrame     ||
+                  window.oRequestAnimationFrame;
+
+  var elemeIndex = 0;
+
+  function animate() {
     reqAnimFrame(animate);
 
     drawer.clear();
     drawer.draw();
+
+    if (action === 'animation') {
+      flashEngine(blankPointLeft, 1);
+      flashEngine(blankPointRight, 2);
+    } else if (action === 'seperate') {
+      if (elemeIndex < elemeQuene.length) {
+
+        if (elemeQuene[elemeIndex].active === undefined) {
+          elemeQuene[elemeIndex].active = true;
+          elemeQuene[elemeIndex].presentOffset = new PresentOffset(0, 0);
+        } else if (elemeQuene[elemeIndex].active && elemeQuene[elemeIndex].presentOffset.offsetX != elemeQuene[elemeIndex].originPresentOffset.offsetX) {
+          elemeQuene[elemeIndex].presentOffset.offsetX += elemeQuene[elemeIndex].xSpeed;
+          elemeQuene[elemeIndex].presentOffset.offsetY += elemeQuene[elemeIndex].ySpeed;
+        } else {
+          elemeQuene[elemeIndex].active = false;
+
+          if (elemeQuene[elemeIndex].rect) {
+            elemeQuene[elemeIndex].rect.x += elemeQuene[elemeIndex].presentOffset.offsetX;
+            elemeQuene[elemeIndex].rect.y += elemeQuene[elemeIndex].presentOffset.offsetY;
+          } else if (elemeQuene[elemeIndex].centerPoint) {
+            elemeQuene[elemeIndex].centerPoint.x += elemeQuene[elemeIndex].presentOffset.offsetX;
+            elemeQuene[elemeIndex].centerPoint.y += elemeQuene[elemeIndex].presentOffset.offsetY;
+          } else if (elemeQuene[elemeIndex].o) {
+            elemeQuene[elemeIndex].o.point.x += elemeQuene[elemeIndex].presentOffset.offsetX;
+            elemeQuene[elemeIndex].o.point.y += elemeQuene[elemeIndex].presentOffset.offsetY;
+          } else if (elemeQuene[elemeIndex].fromPoint) {
+            elemeQuene[elemeIndex].fromPoint.x += elemeQuene[elemeIndex].presentOffset.offsetX;
+            elemeQuene[elemeIndex].fromPoint.y += elemeQuene[elemeIndex].presentOffset.offsetY;
+            elemeQuene[elemeIndex].toPoint.x += elemeQuene[elemeIndex].presentOffset.offsetX;
+            elemeQuene[elemeIndex].toPoint.y += elemeQuene[elemeIndex].presentOffset.offsetY;
+          }
+
+          elemeIndex++;
+        }
+      }
+
+    }
+
 }
 
-// animate();
-
-drawer.draw();
+animate();
+switch (action) {
+  case 'animation':
+    break;
+  case 'seperate':
+    $('body').addClass('black');
+    break;
+  case 'back':
+    window.location.href = './index.html';
+  default:
+    drawer.draw();
+    break;
+}
 
 })(window)

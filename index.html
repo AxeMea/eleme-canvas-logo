@@ -5,6 +5,10 @@
     <style>
       body{
         text-align: center;
+        font-size: 14px;
+      }
+
+      body.black {
         background: black;
       }
 
@@ -12,10 +16,60 @@
         width: 600px;
         height: 800px;
       }
+
+      .ops-panel{
+        width: 100px;
+        position: fixed;
+        left: 10px;
+        top: 30px;
+        text-align: center;
+        background: rgba(65, 124, 166, 0.1);
+        border-radius: 5px;
+      }
+
+      body.black .ops-panel{
+        color: white;
+        background: rgba(255, 255, 255, 0.3);
+      }
+
+      .ops-panel ul{
+        padding: 0;
+        margin: 0;
+      }
+
+      .ops-panel ul li{
+        list-style-type: none;
+        padding: 5px 0;
+        cursor: pointer;
+      }
+
+      .ops-panel ul li:hover{
+        background: rgba(65, 124, 166, 0.2);
+      }
     </style>
   </head>
   <body>
     <canvas id="eleme" width="600" height="800"></canvas>
+
+    <div class="ops-panel">
+      <ul>
+        <li class="action" data-action="back">
+          origin
+        </li>
+        <li class="action" data-action="animation">
+          animation
+        </li>
+        <li class="action" data-action="seperate">
+          seperate
+        </li>
+      </ul>
+    </div>
   </body>
+  <script src="http://cdn.bootcss.com/jquery/3.1.0/jquery.min.js"></script>
   <script src="core.js"></script>
+  <script>
+    $('.action').on('click', function(e) {
+      window.location.href = './index.html?action=' + $(this).data('action');
+    });
+  </script>
 </html>
